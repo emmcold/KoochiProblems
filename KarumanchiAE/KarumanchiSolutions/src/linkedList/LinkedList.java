@@ -3,7 +3,8 @@ package linkedList;
 import linkedList.LinkedList.Node;
 
 public class LinkedList {
-	class Node{
+
+    class Node{
 		int data;
 		Node next;
 		
@@ -91,5 +92,63 @@ public class LinkedList {
 		temp.next=prev;
 		head=temp;
 		return head;
+	}
+
+	/**
+	 * Creates LinkedList from the given array.
+	 * @param arr Array having the elements data.
+	 */
+	public void createLinkeListsFromArray(int[] arr){
+		if (arr == null || arr.length == 0){
+			return;
+		}
+		head = new Node(arr[0]);
+		Node temp = head;
+		for(int i = 1;i<arr.length;++i){
+			Node t = new Node(arr[i]);
+			temp.next = t;
+			temp = temp.next;
+		}
+	}
+
+	/**
+	 * Reverses a linked list from the provided start position to the end position (excluding)
+	 * @param start Start position of the linked list
+	 * @param end End position of the linked list
+	 * @return the beginning of the reversed linked list
+	 */
+	public Node reverseKElemenetsLinkedList(Node start, Node end){
+		if(start == null || start.next == null){
+			return start;
+		}
+		Node prev = null;
+		Node current = start;
+		Node next = current.next;
+		while(current!=end)
+		{
+			current.next = prev;
+			prev = current;
+			current = next;
+			if(next != null)
+				next = next.next;
+		}
+		start.next = end;
+		return prev;
+	}
+
+	/**
+	 * Given a start node and a value k, it finds the end after iterating k elements
+	 * @param start Starting node
+	 * @param k The integer k
+	 * @return the node after k elements
+	 */
+	public Node findEnd(Node start, int k) {
+		// TODO Auto-generated method stub
+		Node temp = start;
+		while(temp.next!=null && k>0){
+			temp = temp.next;
+			k--;
+		}
+		return k > 0 ? null : temp;
 	}
 }

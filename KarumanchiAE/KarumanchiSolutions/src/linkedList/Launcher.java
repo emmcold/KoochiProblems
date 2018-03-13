@@ -1,5 +1,5 @@
 /**
- * 
+ * This file is the Launcher for the LinkedList problems in Karumanchi Book
  */
 package linkedList;
 
@@ -17,6 +17,7 @@ import linkedList.LinkedList.Node;
 public class Launcher {
 
 	/**
+	 * Main Function
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -34,12 +35,13 @@ public class Launcher {
 		//System.out.println("The merged linked lists: ");
 		//question31().printLinkedList();
 		//question36();
+		question38();
 		//question44();
 		//question46b(3);
 		//question48(3);
 		//question50();
 		//question53();
-		question56();
+		//question56();
 	}
 
 
@@ -159,7 +161,7 @@ public class Launcher {
 	/**
 	 * Return the beginning of the loop in a linked list
 	 *
-	 * @return
+	 * @return the node data if the node is found else return -1
 	 */
 	public static int question3b() {
 		LinkedList ll = new LinkedList();
@@ -675,6 +677,40 @@ public class Launcher {
 			slowP = slowP.next;
 		}
 		return true;
+	}
+
+	/**
+	 * Given a value k, reverse the linked list after every K elements.
+	 */
+	public static void question38(){
+		LinkedList ll = new LinkedList();
+		int[] arr = {1,2,3,4,5,6,7,8,9,10};
+		ll.createLinkeListsFromArray(arr);
+		ll.printLinkedList();
+		Node start = ll.head;
+		Node startPrev = ll.head;
+		int K = 2;
+		if(K == 1){
+			ll.printLinkedList();
+			return;
+		}
+		while(start!=null){
+			Node end = ll.findEnd(start, K);
+			Node toLink = ll.reverseKElemenetsLinkedList(start, end);
+			if(startPrev != start){
+				startPrev.next = toLink;
+			}
+			else{
+				ll.head = toLink;
+			}
+			startPrev = start;
+			if(start!=null)
+				start = start.next;
+			//Node end = ll.reverseKElemenetsLinkedList(start, end);
+
+		}
+		ll.printLinkedList();
+
 	}
 
 	public static void question44() {
