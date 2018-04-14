@@ -1,2 +1,10 @@
 .metadata
 .recommenders
+*.iml
+KarumanchiAE/KarumanchiSolutions/bin/
+.idea/
+out/
+.classpath
+.project
+.settings
+*.xml
