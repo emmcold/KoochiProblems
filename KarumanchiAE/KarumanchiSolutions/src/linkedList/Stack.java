@@ -18,8 +18,8 @@ public class Stack {
 		ll = new LinkedList();
 		
 	}
-	public void push(int data){
-	};
+	/*public void push(int data){
+	};*/
 	public Node pop(){
 		Node toReturn = null;
 		if(!isEmpty()){
