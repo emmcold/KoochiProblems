@@ -1030,6 +1030,41 @@ public class Launcher {
 	public static void question56(){
 		
 	}
+
+	/**
+	 * Given a value k, reverse the linked list after every K elements.
+	 */
+	public static void question38(){
+		LinkedList ll = new LinkedList();
+		int[] arr = {1,2,3,4,5,6,7,8,9,10};
+		ll.createLinkeListsFromArray(arr);
+		ll.printLinkedList();
+		Node start = ll.head;
+		Node startPrev = ll.head;
+		int K = 2;
+		if(K == 1){
+			ll.printLinkedList();
+			return;
+		}
+		while(start!=null){
+			Node end = ll.findEnd(start, K);
+			Node toLink = ll.reverseKElemenetsLinkedList(start, end);
+			if(startPrev != start){
+				startPrev.next = toLink;
+			}
+			else{
+				ll.head = toLink;
+			}
+			startPrev = start;
+			if(start!=null)
+				start = start.next;
+			//Node end = ll.reverseKElemenetsLinkedList(start, end);
+
+		}
+		ll.printLinkedList();
+
+	}
+
 }
 
 
