@@ -43,7 +43,8 @@ public class Launcher {
 		//question53();
 		//testReverseRec();
 		//CTCIprob21b();
-		CTCIprob22(23);
+		//CTCIprob22(23);
+		CTCIprob23();
 	}
 
 
@@ -1187,6 +1188,29 @@ public class Launcher {
 		}
 		System.out.println("The "+k+ "-th element is:  "+temp1.data);
 	}
+	/**
+	 * Delete the middle node without having access to no node except that
+	 */
+	public static void CTCIprob23(){
+		LinkedList ll1=new LinkedList();
+		int elements=50;
+		while(elements!=39){
+			ll1.insertNodeAtHead(elements);
+			elements--;
+		}
+		ll1.insertNodeAtHead(42);
+		System.out.println("\nThe linked list before deleting: ");
+		ll1.printLinkedList();
+		
+		Node temp=ll1.head.next.next.next.next.next.next;
+		
+		//delete temp (assuming is the middle node)
+		
+		temp.next.data=temp.data;
+		temp.next=temp.next.next;
+		ll1.printLinkedList();
+	}
+	
 }
 
 
