@@ -42,7 +42,8 @@ public class Launcher {
 		//question50();
 		//question53();
 		//testReverseRec();
-		CTCIprob21b();
+		//CTCIprob21b();
+		CTCIprob22(23);
 	}
 
 
@@ -1157,7 +1158,35 @@ public class Launcher {
 		ll1.printLinkedList();
 	}
 	
-	
+	/**
+	 * Return the kth element from the back
+	 */
+	public static void CTCIprob22(int k){
+		LinkedList ll1=new LinkedList();
+		int elements=50;
+		while(elements!=39){
+			ll1.insertNodeAtHead(elements);
+			elements--;
+		}
+		ll1.insertNodeAtHead(42);
+		ll1.printLinkedList();
+		if(k<1 || k>ll1.lengthOfLinkedList()){
+			System.out.println("Wrong number!");
+			return;
+		}
+		Node temp1=ll1.head;
+		
+		Node temp2=ll1.head;
+		
+		for(int i=0;i<k;i++){
+			temp2=temp2.next;
+		}
+		while(temp2!=null){
+			temp1=temp1.next;
+			temp2=temp2.next;
+		}
+		System.out.println("The "+k+ "-th element is:  "+temp1.data);
+	}
 }
 
 
