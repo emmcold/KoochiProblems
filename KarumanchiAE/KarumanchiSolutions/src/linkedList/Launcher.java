@@ -4,8 +4,10 @@
 package linkedList;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import linkedList.LinkedList.Node;
+import linkedList.LinkedList;
 //Read problem 42 from the book of Karumanchi pdf 
 //Read & Solve problem 44 from the book 
 //Read the question about ordering the linked list (Snake solution)
@@ -39,7 +41,8 @@ public class Launcher {
 		//question48(3);
 		//question50();
 		//question53();
-		question55();
+		//testReverseRec();
+		CTCIprob21b();
 	}
 
 
@@ -1064,7 +1067,97 @@ public class Launcher {
 		ll.printLinkedList();
 
 	}
-
+	/**
+	 * Test the function of reversing a linked list using recursion.
+	 */
+	public static void testReverseRec(){
+		LinkedList ll = new LinkedList();
+		int[] arr = {1,2,3,4,5,6,7,8,9,10};
+		ll.createLinkeListsFromArray(arr);
+		ll.printLinkedList();
+		Node start = ll.head;
+		Node rev=ll.reverseLlRecur(start);
+		
+		LinkedList llRev=new LinkedList();
+		llRev.head=rev;
+		System.out.println("The recursive linked list is: ");
+		llRev.printLinkedList();
+		
+	}
+	
+	/**
+	 * These are the solutions from the cracking the coding
+	 * interview. I am doing them all now with the name
+	 * CTCIprob21 ...prob21b ...prob22..
+	 */
+	
+	/**
+	 * Remove dups: Write code to remove duplicates from an 
+	 * unsorted linked list.
+	 */
+	public static void CTCIprob21a(){
+		LinkedList ll1=new LinkedList();
+		int elements=50;
+		while(elements!=39){
+			ll1.insertNodeAtHead(elements);
+			elements--;
+		}
+		ll1.insertNodeAtHead(42);
+		ll1.printLinkedList();
+		
+		HashSet<Integer> setNode=new HashSet<>();
+		
+		Node temp=ll1.head;
+		Node prev=temp;
+		
+		while(temp!=null){	
+			if(!setNode.contains(temp.data)){
+				setNode.add(temp.data);
+			}
+			else{
+				prev.next=temp.next;
+				}
+			prev=temp;
+			temp=temp.next;	
+		}
+		
+		System.out.println("\nThe linked list after duplicates: ");
+		ll1.printLinkedList();
+	}
+	/**
+	 * Without temporary buffer
+	 */
+	public static void CTCIprob21b(){
+		LinkedList ll1=new LinkedList();
+		int elements=50;
+		while(elements!=39){
+			ll1.insertNodeAtHead(elements);
+			elements--;
+		}
+		ll1.insertNodeAtHead(42);
+		ll1.printLinkedList();
+		
+		Node temp1=ll1.head;
+		Node temp2=ll1.head.next;
+		Node prevTemp2=ll1.head;
+		
+		while(temp1.next!=null){
+			while(temp2!=null){
+				if(temp1.data==temp2.data){
+					prevTemp2.next=temp2.next;
+				}
+				prevTemp2=temp2;
+				temp2=temp2.next;
+			}
+			temp1=temp1.next;
+			temp2=temp1.next;
+			prevTemp2=temp1;
+		}
+		System.out.println("\nThe linked list after duplicates: ");
+		ll1.printLinkedList();
+	}
+	
+	
 }
 
 

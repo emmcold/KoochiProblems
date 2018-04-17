@@ -150,4 +150,16 @@ public class LinkedList {
 		}
 		return k > 0 ? null : temp;
 	}
+	/**
+	 * Reverse the linked list using recursion.
+	 */
+	public Node reverseLlRecur(Node head){
+		if(head.next==null){
+			return head;
+		}
+		Node temp=reverseLlRecur(head.next);
+		head.next.next=head;
+		head.next=null;
+		return temp;
+	}
 }
