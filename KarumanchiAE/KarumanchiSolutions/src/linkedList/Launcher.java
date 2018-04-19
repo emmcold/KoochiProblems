@@ -44,7 +44,11 @@ public class Launcher {
 		//testReverseRec();
 		//CTCIprob21b();
 		//CTCIprob22(23);
-		CTCIprob23();
+		//CTCIprob23();
+		//CTCIprob25();
+		//System.out.println(CTCIprob26());
+		//System.out.println(CTCIprob27());
+		System.out.println(CTCIprob28());
 	}
 
 
@@ -1209,6 +1213,222 @@ public class Launcher {
 		temp.next.data=temp.data;
 		temp.next=temp.next.next;
 		ll1.printLinkedList();
+	}
+	
+	/**
+	 * Problem 2.4 Partition
+	 */
+	
+	/**
+	 * Sum lists (first the backward version) 
+	 * e.g. 7+1+6 and 5+9+2 to 2+1+9
+	 */
+	public static void CTCIprob25(){
+		LinkedList ll1=new LinkedList();
+		int elements=1;
+		while(elements!=8){
+			ll1.insertNodeAtHead(elements);
+			elements++;
+		}
+		ll1.printLinkedList();
+
+		LinkedList ll2=new LinkedList();
+		int elements2=9;
+		while(elements2!=1){
+			ll2.insertNodeAtHead(elements2);
+			elements2--;
+		}
+
+		ll2.printLinkedList();
+		
+		Node temp1=ll1.head;
+		Node temp2=ll2.head;
+		LinkedList ll3=new LinkedList();
+		Node temp3=ll3.head;
+		int sum=0;
+		int carry=0;
+		int sumNew=0;
+		while(temp1!=null && temp2!=null){
+			sum=temp1.data+temp2.data+carry;
+			carry=sum/10;
+			sumNew=sum%10;
+			
+			Node newN=ll3.new Node(sumNew);
+			if(temp3==null){
+				ll3.head=newN;
+				temp3=newN;
+			}
+			else{
+			temp3.next=newN;
+			temp3=temp3.next;}
+			
+			temp1=temp1.next;
+			temp2=temp2.next;
+		}
+		while(temp1!=null){
+			sum=temp1.data+carry;
+			carry=sum/10;
+			sumNew=sum%10;
+			
+			Node newNode=ll3.new Node(sumNew);
+			
+			temp3.next=newNode;
+			temp3=temp3.next;
+			temp1=temp1.next;
+		}
+		while(temp2!=null){
+			sum=temp2.data+carry;
+			carry=sum/10;
+			sumNew=sum%10;
+			
+			Node newNode=ll3.new Node(sumNew);
+			
+			temp3.next=newNode;
+			temp3=temp3.next;
+			temp2=temp2.next;
+		}
+		ll3.printLinkedList();
+	}
+	/**
+	 * Sum lists (the forward version) 
+	 * e.g. 7+1+6 and 5+9+2 to 2+1+9
+	 * Solution: Reverse the two linked list and use the above approach.
+	 * Solution 2: USe a stack.
+	 */
+	
+	/**
+	 * Implement a function to check if a linked list is a palindrome.
+	 */
+	public static boolean CTCIprob26(){
+		LinkedList ll1=new LinkedList();
+		int elements=1;
+		while(elements!=8){
+			ll1.insertNodeAtHead(elements);
+			elements++;
+		}
+		//to test for odd/even comment/uncomment the line below:
+		ll1.insertNodeAtHead(4);
+		int el=7;
+		while(el!=0){
+			ll1.insertNodeAtHead(el);
+			el--;
+		}
+		ll1.printLinkedList();
+		
+		if(ll1.head.next==null || ll1.head==null) return true;
+		
+		Node fastP=ll1.head.next;
+		Node slowP=ll1.head;
+		Node preSlowP=null;
+		
+		while(fastP!=null && fastP.next!=null){
+			preSlowP=slowP;
+			if(slowP.next!=null){
+			slowP=slowP.next;}
+			if(fastP.next!=null){
+			fastP=fastP.next.next;}
+			
+		}
+		
+		preSlowP.next=null;
+		
+		LinkedList ll2=new LinkedList();
+		ll2.head=slowP;
+		
+		ll2.head=ll2.reverseLinkedList();
+		
+		Node temp2=ll2.head;
+		Node temp1=ll1.head;
+		
+		while(temp1!=null && temp2!=null){
+			if(temp1.data!=temp2.data){
+				return false;
+			}
+			temp1=temp1.next;
+			temp2=temp2.next;
+		}
+		
+		return true;
+	}
+	/**
+	 * FInd if two linked lists intersect 
+	 * e.g. Node-> they intersect, null-> they don't intersect
+	 */
+	public static Node CTCIprob27(){
+		LinkedList ll1=new LinkedList();
+		LinkedList ll2=new LinkedList();
+		int elements=1;
+		while(elements!=8){
+			if(elements>=5){
+				ll2.insertNodeAtHead(elements);
+			}
+			ll1.insertNodeAtHead(elements);
+			elements++;
+		}
+		ll1.printLinkedList();
+
+		
+		int elements2=9;
+		while(elements2!=1){
+			ll2.insertNodeAtHead(elements2);
+			elements2--;
+		}
+
+		ll2.printLinkedList();
+		
+		HashSet<Node> set=new HashSet<Node>();
+		
+		Node temp1=ll1.head;
+		while(temp1!=null){
+			set.add(temp1);
+			temp1=temp1.next;
+		}
+		
+		Node temp2=ll2.head;
+		
+		while(temp2!=null){
+			if(set.contains(temp2)){
+				return temp2;
+			}
+			temp2=temp2.next;
+		}
+		return null;
+		
+		
+	}
+	/**
+	 * Given a circular linked list, find the beginning of the loop.
+	 */
+	public static int CTCIprob28(){
+		LinkedList ll1 = new LinkedList();
+
+		ll1.insertNodeAtHead(100);
+		//13->12->11->10->9->8->7->6->5->4->(100) temp
+
+		Node temp = ll1.head;
+		int elements=4;
+		while(elements!=14){
+			ll1.insertNodeAtHead(elements);
+			if(elements == 8)
+			{
+				temp.next = ll1.head;
+			}
+			elements++;
+
+		}
+		//ll1.printLinkedList();
+		Node slowP=ll1.head.next;
+		Node fastP=slowP.next;
+		while(slowP!=fastP){
+			slowP=slowP.next;
+			fastP=fastP.next.next;
+		}
+		fastP=ll1.head;
+		while(fastP!=slowP){
+			fastP=fastP.next;
+			slowP=slowP.next;
+		}
+		return slowP.data;
 	}
 	
 }
