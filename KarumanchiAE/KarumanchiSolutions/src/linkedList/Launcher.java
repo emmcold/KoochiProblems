@@ -48,7 +48,8 @@ public class Launcher {
 		//CTCIprob25();
 		//System.out.println(CTCIprob26());
 		//System.out.println(CTCIprob27());
-		System.out.println(CTCIprob28());
+		//System.out.println(CTCIprob28());
+		question56();
 	}
 
 
@@ -1037,7 +1038,33 @@ public class Launcher {
 	 * elements of them
 	 */
 	public static void question56(){
+		LinkedList ll1 = new LinkedList();
+		int[] arr = {7,8,9,10,45,67};
 		
+		ll1.createLinkeListsFromArray(arr);
+		ll1.printLinkedList();
+		
+		LinkedList ll2=new LinkedList();
+		int[] arr2={7,8,9};
+		ll2.createLinkeListsFromArray(arr2);
+		ll2.printLinkedList();
+		
+		Node t1=ll1.head;
+		Node t2=ll2.head;
+		
+		while(t1!=null && t2!=null){
+			if(t1.data==t2.data){
+				System.out.println(t1.data);
+				t1=t1.next;
+				t2=t2.next;
+			}
+			else if(t1.data<t2.data){
+				t1=t1.next;
+			}
+			else if(t1.data>t2.data){
+				t2=t2.next;
+			}
+		}
 	}
 
 	/**
