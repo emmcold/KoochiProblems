@@ -8,10 +8,9 @@ import java.util.HashSet;
 
 import linkedList.LinkedList.Node;
 import linkedList.LinkedList;
-//Read problem 42 from the book of Karumanchi pdf 
-//Read & Solve problem 44 from the book 
-//Read the question about ordering the linked list (Snake solution)
-//Read Question 51 from the book of Karumanchi pdf
+import linkedList.LinkedListRandom;
+import linkedList.LinkedListRandom.LinkedListRandomNode;
+
 /**
  * @author emira
  *
@@ -47,9 +46,15 @@ public class Launcher {
 		//CTCIprob23();
 		//CTCIprob25();
 		//System.out.println(CTCIprob26());
-		//System.out.println(CTCIprob27());
+		//System.out.println(CTCIprob27().data);
 		//System.out.println(CTCIprob28());
-		question56();
+		//question56();
+		//CTCIprob21b();
+		//System.out.println(CTCIprob26());
+		//question44c();
+		//testReverseRec();
+		CTCIprob24(6);
+		CTCIprob24Revision(6);
 	}
 
 
@@ -1031,7 +1036,7 @@ public class Launcher {
 		newLl.head=newHead;
 		newLl.printLinkedList();
 	}
-	
+
 	/**
 	 * Given two sorted linked lists, given an algorithm 
 	 * for the printing common
@@ -1040,18 +1045,18 @@ public class Launcher {
 	public static void question56(){
 		LinkedList ll1 = new LinkedList();
 		int[] arr = {7,8,9,10,45,67};
-		
+
 		ll1.createLinkeListsFromArray(arr);
 		ll1.printLinkedList();
-		
+
 		LinkedList ll2=new LinkedList();
 		int[] arr2={7,8,9};
 		ll2.createLinkeListsFromArray(arr2);
 		ll2.printLinkedList();
-		
+
 		Node t1=ll1.head;
 		Node t2=ll2.head;
-		
+
 		while(t1!=null && t2!=null){
 			if(t1.data==t2.data){
 				System.out.println(t1.data);
@@ -1105,25 +1110,25 @@ public class Launcher {
 	 */
 	public static void testReverseRec(){
 		LinkedList ll = new LinkedList();
-		int[] arr = {1,2,3,4,5,6,7,8,9,10};
+		int[] arr = {1,2};
 		ll.createLinkeListsFromArray(arr);
 		ll.printLinkedList();
 		Node start = ll.head;
 		Node rev=ll.reverseLlRecur(start);
-		
-		LinkedList llRev=new LinkedList();
-		llRev.head=rev;
+
+		//LinkedList llRev=new LinkedList();
+		ll.head=rev;
 		System.out.println("The recursive linked list is: ");
-		llRev.printLinkedList();
-		
+		ll.printLinkedList();
+
 	}
-	
+
 	/**
 	 * These are the solutions from the cracking the coding
 	 * interview. I am doing them all now with the name
 	 * CTCIprob21 ...prob21b ...prob22..
 	 */
-	
+
 	/**
 	 * Remove dups: Write code to remove duplicates from an 
 	 * unsorted linked list.
@@ -1132,28 +1137,29 @@ public class Launcher {
 		LinkedList ll1=new LinkedList();
 		int elements=50;
 		while(elements!=39){
-			ll1.insertNodeAtHead(elements);
+			ll1.insertNodeAtHead(2);
 			elements--;
 		}
 		ll1.insertNodeAtHead(42);
 		ll1.printLinkedList();
-		
+
 		HashSet<Integer> setNode=new HashSet<>();
-		
+
 		Node temp=ll1.head;
 		Node prev=temp;
-		
+
 		while(temp!=null){	
 			if(!setNode.contains(temp.data)){
 				setNode.add(temp.data);
+				prev=temp;
 			}
 			else{
 				prev.next=temp.next;
-				}
-			prev=temp;
+			}
+
 			temp=temp.next;	
 		}
-		
+
 		System.out.println("\nThe linked list after duplicates: ");
 		ll1.printLinkedList();
 	}
@@ -1162,34 +1168,59 @@ public class Launcher {
 	 */
 	public static void CTCIprob21b(){
 		LinkedList ll1=new LinkedList();
-		int elements=50;
-		while(elements!=39){
-			ll1.insertNodeAtHead(elements);
-			elements--;
-		}
-		ll1.insertNodeAtHead(42);
+		int[] arr = {2,3,2,3,2,2};
+		ll1.createLinkeListsFromArray(arr);
 		ll1.printLinkedList();
-		
+
 		Node temp1=ll1.head;
 		Node temp2=ll1.head.next;
 		Node prevTemp2=ll1.head;
-		
-		while(temp1.next!=null){
+
+		while(temp1!=null){
 			while(temp2!=null){
 				if(temp1.data==temp2.data){
 					prevTemp2.next=temp2.next;
 				}
-				prevTemp2=temp2;
+				else{
+					prevTemp2=temp2;
+				}
 				temp2=temp2.next;
+				temp1=temp1.next;
 			}
-			temp1=temp1.next;
-			temp2=temp1.next;
-			prevTemp2=temp1;
 		}
 		System.out.println("\nThe linked list after duplicates: ");
 		ll1.printLinkedList();
 	}
-	
+
+	/**
+	 * Without temporary buffer: Cleaner solution without prevTemp
+	 */
+
+	public static void CTCIprob21c(){
+		LinkedList ll1=new LinkedList();
+		int[] arr = {2,3,2,3,2,2};
+		ll1.createLinkeListsFromArray(arr);
+		ll1.printLinkedList();
+
+		Node temp1=ll1.head;
+		Node temp2=temp1;
+
+		while(temp1!=null){
+			temp2=temp1;
+			while(temp2.next!=null){
+				if(temp1.data==temp2.next.data){
+					temp2.next=temp2.next.next;
+				}
+				else{
+					temp2=temp2.next;
+				}
+			}
+			temp1=temp1.next;
+		}
+		System.out.println("\nThe linked list after duplicates: ");
+		ll1.printLinkedList();
+	}
+
 	/**
 	 * Return the kth element from the back
 	 */
@@ -1207,9 +1238,9 @@ public class Launcher {
 			return;
 		}
 		Node temp1=ll1.head;
-		
+
 		Node temp2=ll1.head;
-		
+
 		for(int i=0;i<k;i++){
 			temp2=temp2.next;
 		}
@@ -1232,22 +1263,111 @@ public class Launcher {
 		ll1.insertNodeAtHead(42);
 		System.out.println("\nThe linked list before deleting: ");
 		ll1.printLinkedList();
-		
+
 		Node temp=ll1.head.next.next.next.next.next.next;
-		
+		System.out.println(temp.data);
 		//delete temp (assuming is the middle node)
-		
-		temp.next.data=temp.data;
+		temp.data=temp.next.data;
 		temp.next=temp.next.next;
 		ll1.printLinkedList();
 	}
-	
+
 	/**
 	 * Problem 2.4 Partition
+	 * In question number 2.4, it says that you are given a linked list.
+		3 -> 10 -> 6 -> 1 -> 7 -> 20 ->5 ->NULL
+		and you are given an integer n. You need to partition the 
+		linked list in such a manner that the first part contains the elements less than n. e.g. consider the two partition around n=5
+		3 -> 1 -> NULL (Linked List having elements less than 5) LIST 1
+		10 -> 6 -> 7 -> 20 -> 5 ->NULL (Liked List having elements greater 
+		than or equal to 5). LIST 2
+		Now let's append LIST 2 to LIST 1 we get:
+		3 -> 1 -> 10 -> 6 -> 7 -> 20 -> 5 ->NULL
+		This is the expected result from your code.
 	 */
+	public static void CTCIprob24(int n){
+		LinkedList ll1=new LinkedList();
+		int[] arr={3,10,6,1,7,20,5};
+		ll1.createLinkeListsFromArray(arr);
+		ll1.printLinkedList();
+		
+		//temp1 for numbers smaller than N
+		Node temp1=null;
+		Node temp1Head=null;
+		//temp2 for numbers larger than N
+		Node temp2=null;
+		Node temp2Head=null;
+		//temp for traversing
+		Node temp=ll1.head;
+		while(temp!=null){
+			if(temp.data < n) {
+				if(temp1Head==null){
+					temp1Head=temp;
+				}
+				else{
+					temp1.next=temp;
+				}
+				temp1=temp;
+			}
+			else{
+				if(temp2Head==null){
+					temp2Head=temp;
+				}
+				else{
+					temp2.next=temp;
+				}
+				temp2=temp;
+			}
+			temp=temp.next;
+		}
+		temp1.next=temp2Head;
+		temp2.next=null;
+		ll1.head=temp1Head;
+		ll1.printLinkedList();
+	}
 	
+	public static void CTCIprob24Revision(int n){
+	    LinkedList ll1=new LinkedList();
+	    int[] arr={3,10,6,1,7,20,5};
+	    ll1.createLinkeListsFromArray(arr);
+	    ll1.printLinkedList();
+	    
+	    Node temp=ll1.head;
+	    Node temp1=null;
+	    Node temp1Head=null;
+	    Node temp2=null;
+	    Node temp2Head=null;
+	    
+	    while(temp!=null){
+	        //smaller case
+	        if(temp.data<n){
+	            if(temp1Head==null){
+	                temp1Head=temp;
+	            }
+	            else{
+	                temp1.next=temp;
+	            }
+	            temp1=temp;
+	        }
+	        //larger case
+	        else{
+	            if(temp2Head==null){
+                    temp2Head=temp;
+                }
+                else{
+                    temp2.next=temp;
+                }
+	            temp2=temp;
+	        }
+	        temp=temp.next;
+	    }
+	    temp1.next=temp2Head;
+	    temp2.next=null;
+	    ll1.head=temp1Head;
+	    ll1.printLinkedList();
+	}
 	/**
-	 * Sum lists (first the backward version) 
+	 * Sum lists (first the forward version) 
 	 * e.g. 7+1+6 and 5+9+2 to 2+1+9
 	 */
 	public static void CTCIprob25(){
@@ -1267,7 +1387,7 @@ public class Launcher {
 		}
 
 		ll2.printLinkedList();
-		
+
 		Node temp1=ll1.head;
 		Node temp2=ll2.head;
 		LinkedList ll3=new LinkedList();
@@ -1279,16 +1399,16 @@ public class Launcher {
 			sum=temp1.data+temp2.data+carry;
 			carry=sum/10;
 			sumNew=sum%10;
-			
+
 			Node newN=ll3.new Node(sumNew);
 			if(temp3==null){
 				ll3.head=newN;
 				temp3=newN;
 			}
 			else{
-			temp3.next=newN;
-			temp3=temp3.next;}
-			
+				temp3.next=newN;
+				temp3=temp3.next;}
+
 			temp1=temp1.next;
 			temp2=temp2.next;
 		}
@@ -1296,9 +1416,9 @@ public class Launcher {
 			sum=temp1.data+carry;
 			carry=sum/10;
 			sumNew=sum%10;
-			
+
 			Node newNode=ll3.new Node(sumNew);
-			
+
 			temp3.next=newNode;
 			temp3=temp3.next;
 			temp1=temp1.next;
@@ -1307,9 +1427,9 @@ public class Launcher {
 			sum=temp2.data+carry;
 			carry=sum/10;
 			sumNew=sum%10;
-			
+
 			Node newNode=ll3.new Node(sumNew);
-			
+
 			temp3.next=newNode;
 			temp3=temp3.next;
 			temp2=temp2.next;
@@ -1317,64 +1437,55 @@ public class Launcher {
 		ll3.printLinkedList();
 	}
 	/**
-	 * Sum lists (the forward version) 
-	 * e.g. 7+1+6 and 5+9+2 to 2+1+9
-	 * Solution: Reverse the two linked list and use the above approach.
+	 * Sum lists (the backward version) 
+	 * e.g. 7+1+6 and 5+9+2 to 1-3-0-8
+	 * Solution 1: Reverse the two linked list and use the above approach.
 	 * Solution 2: USe a stack.
+	 * Solution 3: Use recursion :( The time complexity is better! (maybe)
 	 */
-	
+
+
 	/**
 	 * Implement a function to check if a linked list is a palindrome.
 	 */
 	public static boolean CTCIprob26(){
 		LinkedList ll1=new LinkedList();
-		int elements=1;
-		while(elements!=8){
-			ll1.insertNodeAtHead(elements);
-			elements++;
-		}
-		//to test for odd/even comment/uncomment the line below:
-		ll1.insertNodeAtHead(4);
-		int el=7;
-		while(el!=0){
-			ll1.insertNodeAtHead(el);
-			el--;
-		}
+		int[] arr={1,2,2,2,1};
+		ll1.createLinkeListsFromArray(arr);
 		ll1.printLinkedList();
-		
+
 		if(ll1.head.next==null || ll1.head==null) return true;
-		
+
 		Node fastP=ll1.head.next;
 		Node slowP=ll1.head;
-		Node preSlowP=null;
-		
+
+
 		while(fastP!=null && fastP.next!=null){
-			preSlowP=slowP;
 			if(slowP.next!=null){
-			slowP=slowP.next;}
+				slowP=slowP.next;}
 			if(fastP.next!=null){
-			fastP=fastP.next.next;}
-			
+				fastP=fastP.next.next;}
 		}
-		
-		preSlowP.next=null;
-		
 		LinkedList ll2=new LinkedList();
-		ll2.head=slowP;
-		
+		ll2.head=slowP.next;
+		slowP.next=null;
+
+
+
+
 		ll2.head=ll2.reverseLinkedList();
-		
+
 		Node temp2=ll2.head;
 		Node temp1=ll1.head;
-		
-		while(temp1!=null && temp2!=null){
+		//Remember: first part is always LONGER than second! Traverse JUST second!
+		while(temp2!=null){
 			if(temp1.data!=temp2.data){
 				return false;
 			}
 			temp1=temp1.next;
 			temp2=temp2.next;
 		}
-		
+
 		return true;
 	}
 	/**
@@ -1384,35 +1495,25 @@ public class Launcher {
 	public static Node CTCIprob27(){
 		LinkedList ll1=new LinkedList();
 		LinkedList ll2=new LinkedList();
-		int elements=1;
-		while(elements!=8){
-			if(elements>=5){
-				ll2.insertNodeAtHead(elements);
-			}
-			ll1.insertNodeAtHead(elements);
-			elements++;
-		}
+		ll1.head=ll1.new Node(1);
+		ll2.head=ll1.new Node(3);
+		Node nNode=ll1.new Node(2);
+
+		ll1.head.next=nNode;
+		ll2.head.next=nNode;
 		ll1.printLinkedList();
-
-		
-		int elements2=9;
-		while(elements2!=1){
-			ll2.insertNodeAtHead(elements2);
-			elements2--;
-		}
-
 		ll2.printLinkedList();
-		
+
 		HashSet<Node> set=new HashSet<Node>();
-		
+
 		Node temp1=ll1.head;
 		while(temp1!=null){
 			set.add(temp1);
 			temp1=temp1.next;
 		}
-		
+
 		Node temp2=ll2.head;
-		
+
 		while(temp2!=null){
 			if(set.contains(temp2)){
 				return temp2;
@@ -1420,8 +1521,8 @@ public class Launcher {
 			temp2=temp2.next;
 		}
 		return null;
-		
-		
+
+
 	}
 	/**
 	 * Given a circular linked list, find the beginning of the loop.
@@ -1457,7 +1558,130 @@ public class Launcher {
 		}
 		return slowP.data;
 	}
-	
+
+	/**
+	 * Given a linked list consists of data, 
+	 * a next pointer and also a random pointer
+	   which points to a random node of the list. 
+	   Give an algorithm for cloning the list.
+	 */
+
+	public static void question41(){
+		LinkedListRandom llr1=new LinkedListRandom();
+		llr1.head=llr1.new LinkedListRandomNode(5);
+		LinkedListRandomNode node2=llr1.new LinkedListRandomNode(7);
+		LinkedListRandomNode node3=llr1.new LinkedListRandomNode(9);
+		LinkedListRandomNode node4=llr1.new LinkedListRandomNode(6);
+
+		llr1.head.next=node2;
+		node2.next=node3;
+		node3.next=node4;
+
+		node2.random=llr1.head;
+		llr1.head.random=node4;
+		node3.random=llr1.head;
+		node4.next=node2;
+
+		LinkedListRandom llrClone=new LinkedListRandom();
+
+		LinkedListRandomNode temp=llr1.head;
+		LinkedListRandomNode prevTemp2=llrClone.head;
+
+		HashMap<LinkedListRandomNode, LinkedListRandomNode> hash=new HashMap<>();
+
+		while(temp!=null){
+			LinkedListRandomNode newNode=llrClone.new LinkedListRandomNode(temp.data);
+			if(prevTemp2==null){
+				llrClone.head=newNode;
+			}
+			else{
+				prevTemp2.next=newNode;
+			}
+			prevTemp2=newNode;
+			hash.put(temp, newNode);
+			temp=temp.next;
+		}
+
+		temp=llr1.head;
+
+		while(temp!=null){
+			LinkedListRandomNode correspondingNode=hash.get(temp);
+			LinkedListRandomNode randomNode=temp.random;
+			LinkedListRandomNode randomNodeSecondList=hash.get(randomNode);
+			correspondingNode.random=randomNodeSecondList;
+			temp=temp.next;
+		}
+	}
+	/**
+	 * Given a linked list with even and odd numbers, 
+	 * create an algorithm for making
+	   changes to the list in such a way that all even numbers appear at the beginning.
+	 */
+	public static void question44b(){
+		LinkedList ll1=new LinkedList();
+		int[] arr={2,4,3,7};
+		ll1.createLinkeListsFromArray(arr);
+
+		ll1.printLinkedList();
+		Node temp=ll1.head;
+		Node prevTemp=null;
+
+		while(temp!=null){
+			if(temp.data%2==0 && (prevTemp!=null || temp!=ll1.head )){
+				prevTemp.next=temp.next;
+				temp.next=ll1.head;
+				ll1.head=temp;
+				temp=prevTemp.next;
+			}
+			else{
+				prevTemp=temp;
+				temp=temp.next;
+			}
+		}
+		ll1.printLinkedList();
+	}
+	public static void question44c(){
+		LinkedList ll1=new LinkedList();
+		int[] arr={3,2};
+		ll1.createLinkeListsFromArray(arr);
+
+		ll1.printLinkedList();
+
+		Node temp=ll1.head;
+		Node prevOdd=null;
+		Node prevEven=null;
+		Node headOdd=null;
+		Node headEven=null;
+		while(temp!=null){
+			if(temp.data%2==0){
+				if(headEven == null){
+					headEven = temp;
+					prevEven = temp;
+				}
+				else {
+					prevEven.next = temp;
+					prevEven = temp;
+				}
+			}
+			else {
+				if(headOdd == null){
+					headOdd = temp;
+					prevOdd = temp;
+				}
+				else {
+					prevOdd.next = temp;
+					prevOdd = temp;
+				}
+
+			}
+			temp = temp.next;
+		}
+		prevEven.next = headOdd;
+		prevOdd.next=null;
+		ll1.head = headEven;
+		ll1.printLinkedList();
+	}
+
 }
 
 
