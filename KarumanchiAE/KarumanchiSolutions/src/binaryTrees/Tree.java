@@ -65,9 +65,9 @@ public class Tree {
 			System.out.print(n.data+"->");
 			
 			if(n.left!=null){
-			queueNode.add(root.left);}
+			queueNode.add(n.left);}
 			if(n.right!=null){
-			queueNode.add(root.right);}			
+			queueNode.add(n.right);}			
 		}
 		
 	}
@@ -109,5 +109,22 @@ public class Tree {
 		if(findNode(root.left,element)!=null){return root.left;}
 		if(findNode(root.right,element)!=null){return root.right;}
 		return null;
+	}
+	/**
+	 * Create a sample tree to use for testing.
+	 */
+	public void createTree(){
+	    root=new Node(62);
+	    root.left=new Node(4);
+	    root.right=new Node(49);
+	    root.left.left=new Node(69);
+	    root.left.right=new Node(-109);
+	    root.left.left.left=new Node(-102);
+	    root.left.left.right=new Node(-40);
+	    root.right.left=new Node(22);
+	    root.right.right=new Node(0);
+	    root.right.right.left=new Node(629);
+	    root.right.right.left.left=new Node(44);
+	    root.right.right.left.right=new Node(100);
 	}
 }
