@@ -323,10 +323,4 @@ public class Launcher {
     public static int question17(Node root){
         return 0;
     }
-    public static int question18(){
-        return 9;
-    }
-    public static void question19(){
-        return;
-    }
 }
