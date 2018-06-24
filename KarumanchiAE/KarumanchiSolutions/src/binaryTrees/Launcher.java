@@ -317,10 +317,44 @@ public class Launcher {
         return count;
     }
     /**
-     * Problem-17  Give an algorithm for finding the number of full nodes in the 
+     * Problem-17  Give an algorithm for finding the number of full nodes 
+     * in the 
      * binary tree without using recursion.
      */
     public static int question17(Node root){
-        return 0;
+        if(root==null) return 0;
+        
+        Queue<Node> queueForNodeData = new LinkedList<Node>();
+        
+        int numberOfFullNodes = 0;
+        queueForNodeData.add(root);
+        
+        while(!queueForNodeData.isEmpty()){
+            
+            Node workingNode=queueForNodeData.poll();
+            
+            if(workingNode.left != null && workingNode.right != null){
+                numberOfFullNodes++;
+            }
+            
+            if(workingNode.left != null){
+                queueForNodeData.add(workingNode.left);
+            }
+            if(workingNode.right != null){
+                queueForNodeData.add(workingNode.right);
+            }
+        }
+        return numberOfFullNodes;
     }
+    
+    /**
+     * Problem-19  Given two binary trees, return true if they 
+     * are structurally identical.
+     */
+    /*public static boolean question19(Node root1, Node root2){
+        if(root1==null && root2==null){
+            return true;
+        }
+        
+    }*/
 }
