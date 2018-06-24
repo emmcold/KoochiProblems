@@ -378,10 +378,19 @@ public class Launcher {
      * Problem-19  Given two binary trees, return true if they 
      * are structurally identical.
      */
-    /*public static boolean question19(Node root1, Node root2){
+    public static boolean question19(Node root1, Node root2){
         if(root1==null && root2==null){
             return true;
         }
         
-    }*/
+        if(root2==null || root1==null){
+            return false;
+        }
+        
+        return question19(root1.left,root2.left) && 
+                question19(root1.right,root2.right);
+        /*boolean leftSubtree=question19(root1.left, root2.left);
+        
+        boolean rightSubtree=question19(root1.right, root2.right);*/
+    }
 }
