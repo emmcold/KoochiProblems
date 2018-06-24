@@ -348,6 +348,33 @@ public class Launcher {
     }
     
     /**
+     * Problem-18  Give an algorithm for finding the number of half nodes 
+     * (nodes with only one child) in the binary tree without using recursion.
+     */
+    public static int question18(Node root){
+        if(root==null) return 0;
+        
+        Queue<Node> queueForNodes =new LinkedList<Node>();
+        queueForNodes.add(root);
+        int numberOfHalfNodes=0;
+        while(!queueForNodes.isEmpty()){
+            Node checkingNode = queueForNodes.poll();
+            
+            if((checkingNode.right!=null && checkingNode.left==null) || 
+                    (checkingNode.right==null && checkingNode.left!=null)){
+                numberOfHalfNodes++;
+            }
+            if(checkingNode.left!=null){
+                queueForNodes.add(checkingNode.left);
+            }
+            if(checkingNode.right!=null){
+                queueForNodes.add(checkingNode.right);
+            }
+        }
+        return numberOfHalfNodes;
+    }
+    
+    /**
      * Problem-19  Given two binary trees, return true if they 
      * are structurally identical.
      */
