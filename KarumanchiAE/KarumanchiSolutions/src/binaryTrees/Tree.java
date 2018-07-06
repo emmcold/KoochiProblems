@@ -110,6 +110,7 @@ public class Tree {
 		if(findNode(root.right,element)!=null){return root.right;}
 		return null;
 	}
+	
 	/**
 	 * Create a sample tree to use for testing.
 	 */

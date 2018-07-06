@@ -40,6 +40,9 @@ public class Launcher {
         System.out.println("\nThe maximum element in the above tree is: "+max);
         question9(tree.root);
         System.out.println("The minimum depth of the tree: "+question13(tree.root));
+        
+        int maxLevel = question22(tree.root);
+        System.out.println("\nThe maximum level in the above tree is: "+maxLevel);
     }
     /**
      * Give an algorithm for finding maximum element in binary tree.
@@ -173,7 +176,7 @@ public class Launcher {
     public static void question8(Node root){
         root=null;
     }
-    
+
     /**
      * Problem-9  Give an algorithm for printing the level order data in reverse order. 
      * For example, the output for the below tree should be: 4 5 6 7 2 3 1
@@ -183,7 +186,7 @@ public class Launcher {
         Queue<Node> q=new LinkedList<Node>();
         Stack<Node> s=new Stack<Node>();
         q.add(root);
-        
+
         while(!q.isEmpty()){
             Node n=q.poll();
             s.add(n);
@@ -211,12 +214,12 @@ public class Launcher {
      * Problem-11   Can we solve Problem-10 with stack?
      */
     /*public static int question11(Node root){
-        
+
     }*/
     /**
      * Can we solve Problem-10 without recursion?
      */
-    
+
     public static int question12(Node root){
         if(root==null) return 0;
         Queue<Node> q=new LinkedList<Node>();
@@ -230,7 +233,7 @@ public class Launcher {
                 depth++;
                 if(!q.isEmpty()){
                     q.add(null);
-                    }
+                }
                 else{ 
                     break;
                 }
@@ -251,27 +254,27 @@ public class Launcher {
         if(root==null) return 0;
         return Integer.min(question13(root.left), question13(root.right))+1;
     }
-    
+
     /**
      * Problem-14  Give an algorithm for finding the deepest node of the binary tree.
      */
     //the node accesses the last from the breadth first search in the binary tree
     public static Node question14(Node root){
-       if(root==null) return null;
-       
-       Queue<Node> q=new LinkedList<Node>();
-       q.add(root);
-       Node n=null;
-       while(!q.isEmpty()){
-              n=q.poll();
-              if(n.left!=null){
-                  q.add(n.left);
-              }
-              if(n.right!=null){
-                  q.add(n.right);
-              }
-       }
-       return n;
+        if(root==null) return null;
+
+        Queue<Node> q=new LinkedList<Node>();
+        q.add(root);
+        Node n=null;
+        while(!q.isEmpty()){
+            n=q.poll();
+            if(n.left!=null){
+                q.add(n.left);
+            }
+            if(n.right!=null){
+                q.add(n.right);
+            }
+        }
+        return n;
     }
     /**
      * Problem-15  Give an algorithm for deleting an element (assuming data is given) 
@@ -279,7 +282,7 @@ public class Launcher {
      */
     public static void question15(Node root, int deleteElement){
         if(root==null) return;
-       /* Starting at root, find the node which we want to delete.
+        /* Starting at root, find the node which we want to delete.
         • Find the deepest node in the tree.
         • Replace the deepest node’s data with node to be deleted.
         • Then delete the deepest node.*/
@@ -302,17 +305,17 @@ public class Launcher {
         int count=0;
         q.add(root);
         while(!q.isEmpty()){
-           Node n=q.poll();
-           if(n.left!=null){
-               q.add(n.left);
-           }
-           if(n.right!=null){
-               q.add(n.right);
-           }
-           if(n.left==null && n.right==null){
-               count++;
-           }
-           
+            Node n=q.poll();
+            if(n.left!=null){
+                q.add(n.left);
+            }
+            if(n.right!=null){
+                q.add(n.right);
+            }
+            if(n.left==null && n.right==null){
+                count++;
+            }
+
         }
         return count;
     }
@@ -323,20 +326,20 @@ public class Launcher {
      */
     public static int question17(Node root){
         if(root==null) return 0;
-        
+
         Queue<Node> queueForNodeData = new LinkedList<Node>();
-        
+
         int numberOfFullNodes = 0;
         queueForNodeData.add(root);
-        
+
         while(!queueForNodeData.isEmpty()){
-            
+
             Node workingNode=queueForNodeData.poll();
-            
+
             if(workingNode.left != null && workingNode.right != null){
                 numberOfFullNodes++;
             }
-            
+
             if(workingNode.left != null){
                 queueForNodeData.add(workingNode.left);
             }
@@ -346,20 +349,20 @@ public class Launcher {
         }
         return numberOfFullNodes;
     }
-    
+
     /**
      * Problem-18  Give an algorithm for finding the number of half nodes 
      * (nodes with only one child) in the binary tree without using recursion.
      */
     public static int question18(Node root){
         if(root==null) return 0;
-        
+
         Queue<Node> queueForNodes =new LinkedList<Node>();
         queueForNodes.add(root);
         int numberOfHalfNodes=0;
         while(!queueForNodes.isEmpty()){
             Node checkingNode = queueForNodes.poll();
-            
+
             if((checkingNode.right!=null && checkingNode.left==null) || 
                     (checkingNode.right==null && checkingNode.left!=null)){
                 numberOfHalfNodes++;
@@ -373,7 +376,7 @@ public class Launcher {
         }
         return numberOfHalfNodes;
     }
-    
+
     /**
      * Problem-19  Given two binary trees, return true if they 
      * are structurally identical.
@@ -382,15 +385,151 @@ public class Launcher {
         if(root1==null && root2==null){
             return true;
         }
-        
+
         if(root2==null || root1==null){
             return false;
         }
-        
+
         return question19(root1.left,root2.left) && 
                 question19(root1.right,root2.right);
         /*boolean leftSubtree=question19(root1.left, root2.left);
-        
+
         boolean rightSubtree=question19(root1.right, root2.right);*/
+    }
+
+    /**
+     * Problem-20  Give an algorithm for finding the diameter of the binary tree. 
+     * The diameter of a tree (sometimes called the width) is the 
+     * number of nodes on the longest path between two leaves in the tree.
+     */
+    public static int question20(Node root){
+        if(root==null) return 0;
+
+        int diameter = question10(root.left) + question10(root.right) + 1;
+
+        return Math.max(Math.max(question20(root.left), question20(root.right)), diameter);
+    }
+
+    /** 
+     * Solve Problem 20 with O(n) solution.
+     */
+    static class Height{
+        int h;
+    }
+    public static int question20b(Node root, Height height){
+        if(root == null){
+            height.h = 0;
+            return 0;
+        }
+
+        //initialize the leftHeight and rightHeight
+        Height leftHeight = new Height();
+        Height rightHeight = new Height();
+
+        //calculate leftDiameter and rightDiameter
+        int leftDiameter = question20b(root.left, leftHeight);
+        int rightDiameter = question20b(root.right, rightHeight);
+        
+        //calculate actual height
+        int currentHeight = Math.max(leftHeight.h, rightHeight.h) + 1;
+        //store the currentHeight to the height
+        height.h = currentHeight;
+        //calculate current diameter
+        int currentDiameter = leftHeight.h + rightHeight.h + 1;
+        //compare against current diameter, left diameter and right diameter
+        return Math.max(currentDiameter, Math.max(leftDiameter, rightDiameter));
+    }
+    
+    /** 
+     * Problem-21  Give an algorithm for finding the width of the binary tree. 
+     * The diameter of a treeis the maximum number of nodes at any level 
+     * (or depth) in the tree.
+     */
+    
+    public static int question21(Node root){
+        if(root == null){
+            return 0;
+        }
+        
+        Queue<Node> queue = new LinkedList<Node>();
+        
+        Node empty = null;
+        int maxSize = 0;
+        int size = 0;
+        queue.add(root);
+        queue.add(empty);
+        
+        while(!queue.isEmpty()){
+            
+            Node popNode = queue.poll();
+            
+            if(popNode == empty){
+                if(size > maxSize){
+                    maxSize = size;
+                }
+                if(queue.isEmpty()){
+                    break;
+                }
+                size = 0;
+                queue.add(empty);
+            }
+            else {
+            size ++;
+            if(popNode.left != null){
+                queue.add(popNode.left);
+                }
+            if(popNode.right != null){
+                queue.add(popNode.right);
+                }
+            }
+        }
+        return maxSize;
+    }
+    /**
+     * Problem-22  Give an algorithm for finding the level that has 
+     * the maximum sum in the binary tree.
+     */
+    
+    public static int question22(Node root){
+        if(root == null) return 0;
+        
+        Queue<Node> queueNode = new LinkedList<Node>();
+        int sum = 0;
+        int maxSum = 0;
+        int maxLevel = 0;
+        int level = 0;
+        
+        Node empty = null;
+        
+        queueNode.add(root);
+        queueNode.add(empty);
+        
+        while(!queueNode.isEmpty()){
+            
+           Node popNode = queueNode.poll();
+           
+           if (popNode == empty){
+               level ++;
+               if(sum > maxSum){
+                   maxSum = sum;
+                   maxLevel = level;
+               }
+               if(queueNode.isEmpty()){
+                   break;
+               }
+               queueNode.add(empty);
+               sum = 0;
+           }
+           else{
+               sum = sum + popNode.data;
+               if(popNode.left != null){
+                   queueNode.add(popNode.left);
+               }
+               if(popNode.right != null){
+                   queueNode.add(popNode.right);
+               }
+           }
+        }
+        return maxLevel;
     }
 }
