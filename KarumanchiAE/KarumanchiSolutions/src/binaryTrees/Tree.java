@@ -123,6 +123,7 @@ public class Tree {
 	    root.left.left.left=new Node(-102);
 	    root.left.left.right=new Node(-40);
 	    root.right.left=new Node(22);
+	    root.right.left.right = new Node(-38);
 	    root.right.right=new Node(0);
 	    root.right.right.left=new Node(629);
 	    root.right.right.left.left=new Node(44);

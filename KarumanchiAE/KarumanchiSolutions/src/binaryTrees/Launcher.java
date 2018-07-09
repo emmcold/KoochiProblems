@@ -1,6 +1,7 @@
 package binaryTrees;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -14,6 +15,36 @@ public class Launcher {
         Tree tree=new Tree();
         tree.createTree();
         tree.levelOrderTraversal(tree.root);
+        
+        /*Node lca = question33help(tree.root,tree.root.right.right, tree.root.right.left.right);
+        System.out.println("\n"+lca.data);
+        
+        Node lca2 = question33(tree.root, tree.root.right.right, tree.root.right.left.right);
+        System.out.println();
+        System.out.println("\n"+lca2.data);*/
+        System.out.println();
+        question34(tree.root);
+        /*System.out.println("\nAfter the inversion/mirror of the tree: ");
+        question27(tree.root);
+        tree.levelOrderTraversal(tree.root);
+        
+       Tree tree2 = new Tree();
+       tree2.createTree();
+       System.out.println(question28(tree2.root, tree.root));*/
+       /*System.out.println();
+       HashMap<Integer, Integer> map = question35b(tree.root);
+       for(Integer k: map.keySet()){
+           System.out.println(k + " "+ map.get(k) + "---");
+       }
+       System.out.println("\nThe vertical line sums: ");
+       
+       HashMap<Integer, Integer> horiztonalMapRecursion = new HashMap<>();
+       question35c(tree.root, horiztonalMapRecursion, 0);
+       for(Integer k: horiztonalMapRecursion.keySet()){
+           System.out.println(k + " "+ horiztonalMapRecursion.get(k) + "---");
+       }
+       System.out.println();
+       question32(tree.root, tree.root.right.left, new ArrayList<Node>());*/
         /*Tree tree=new Tree();
 		tree.root=tree.new Node(5);
 		tree.root.left=tree.new Node(4);
@@ -36,13 +67,22 @@ public class Launcher {
 		System.out.println("\n The result is: "+tree3);
 
 		tree.insertElementTree(tree.root,89);*/
-        int max=question1(tree.root);
+        /*int max=question1(tree.root);
         System.out.println("\nThe maximum element in the above tree is: "+max);
         question9(tree.root);
         System.out.println("The minimum depth of the tree: "+question13(tree.root));
         
         int maxLevel = question22(tree.root);
         System.out.println("\nThe maximum level in the above tree is: "+maxLevel);
+        question23(tree.root, new ArrayList<Node>());
+        System.out.println(question24(tree.root, 95, 0));
+        
+        System.out.println(question25(tree.root));*/
+        /*ArrayList<ArrayList<Node>> rootToPathSumList = new ArrayList<ArrayList<Node>>();
+        question24b(tree.root, 95, 0, rootToPathSumList, new ArrayList<Node>());
+        System.out.println("\nThe sum is: "+ question26(tree.root));
+        */
+        
     }
     /**
      * Give an algorithm for finding maximum element in binary tree.
@@ -532,4 +572,325 @@ public class Launcher {
         }
         return maxLevel;
     }
+    
+    /**
+     *  Problem 23 Given a binary tree, print out all its root-to-leaf paths.
+     */
+    public static void question23(Node root, ArrayList<Node> list){
+        if(root == null) return;
+        
+        list.add(root);
+        
+        if(root.left == null && root.right == null){
+            for(Node temp: list){
+                System.out.print(temp.data +"->");
+            }
+            System.out.print("\n");
+            return;
+        }
+        // the two lines below are backtracking
+        question23(root.left, list);
+        list.remove(list.size() - 1);
+        question23(root.right, list);
+        list.remove(list.size() - 1);
+    }
+    
+    /**
+     * Problem-24  Give an algorithm for checking the existence of path 
+     * with given sum. That means, given a sum, check whether there 
+     * exists a path from root to any of the nodes
+     */
+    public static boolean question24(Node root, int requiredSum, int currentSum){
+        if(root == null) return false;
+        // you can get rid of currentSum by adding:
+        // requiredSum -= root.data 
+        //and by checking in the if condition if requiredSum has reached 0 
+        currentSum += root.data;
+        
+        if(root.left == null && root.right == null && currentSum == requiredSum){
+            return true;
+        }
+        
+        return question24(root.left, requiredSum, currentSum) ||  question24(root.right, requiredSum, currentSum);
+    }
+    
+    /**
+     * Extend the above problem to return that path 
+     */
+    public static void question24b(Node root, int requiredSum, int currentSum, ArrayList<ArrayList<Node>>  storepathList,ArrayList<Node> backtrackList){
+        backtrackList.add(root);
+        if(root == null) return;
+        currentSum += root.data;
+ 
+        if(root.left == null && root.right == null && currentSum == requiredSum){
+            storepathList.add(new ArrayList<Node>(backtrackList));
+            System.out.println();
+            for(Node temp: storepathList.get(storepathList.size()-1)){
+                System.out.print(temp.data + "->");
+            }
+            System.out.println();
+            return;
+        }
+        
+        question24b(root.left, requiredSum, currentSum, storepathList, backtrackList);
+        backtrackList.remove(backtrackList.size() -1);
+        question24b(root.right,requiredSum, currentSum,storepathList, backtrackList);
+        backtrackList.remove(backtrackList.size() -1);
+    }
+    
+    /**
+     * Problem-25  Give an algorithm for finding the sum of all 
+     * elements in binary tree.
+
+     */
+    public static int question25(Node root){
+        if(root == null) return 0;
+        return question25(root.left) + question25(root.right) + root.data;
+    }
+    
+    /**
+     * Problem-26  Can we solve Problem-25 without recursion?
+     */
+    public static int question26(Node root){
+        if (root == null) return 0;
+        
+        Queue<Node> queue = new LinkedList<Node>();
+        queue.add(root);
+        int sum = 0;
+        while(!queue.isEmpty()){
+            Node n = queue.poll();
+            sum += n.data;
+            
+            if(n.left!=null){
+                queue.add(n.left);
+            }
+            if(n.right!=null){
+                queue.add(n.right);
+            }
+        }
+        return sum;
+    }
+    
+    /**
+     * Problem-27  Give an algorithm for converting a tree to its mirror. 
+     * Mirror of a tree is another tree with left and right children of 
+     * all non-leaf nodes interchanged. The trees below are mirrors to each other.
+     */
+    // You are swapping the children of the root not the particular elements itself!!!
+    public static void question27(Node root){
+        if(root == null) return;
+        
+        question27(root.left);
+        question27(root.right);
+        
+        Node temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        
+    }
+    
+    /**
+     * Problem-28  Given two trees, give an algorithm for checking whether 
+     * they are mirrors of each other.
+     */
+    public static boolean question28(Node root1, Node root2){
+        if(root1==null && root2==null) return true;
+        if(root1 == null || root2 == null) return false;
+ 
+        if(root1.data != root2.data){
+            return false;
+        }
+        return question28(root1.left, root2.right) && question28(root1.right, root2.left); 
+        
+    }
+    
+    /**
+     * Problem-35  Give an algorithm for finding the vertical sum of a binary tree.
+     */
+    
+    public static void question35(Node root, HashMap<Integer, Integer> map, int level){
+        if(root == null) return;
+        int sum = 0;
+        if(map.containsKey(level)){
+            sum = map.get(level);
+            sum += root.data;
+            map.put(level, sum);
+        }
+        
+        else{
+            map.put(level, sum+root.data);
+        }
+        
+        question35(root.left, map, level-1);
+        question35(root.right, map, level+1);
+    }
+    /**
+     * Problem 35b Calculate the sum of each horizontal(level) line in the tree.
+     */
+    public static HashMap<Integer, Integer> question35b(Node root){
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        if(root == null) return map;
+        
+        Queue<Node> queue = new LinkedList<Node>();
+        Node empty = null;
+        
+        int sum = 0;
+        int level = 0;
+        queue.add(root);
+        queue.add(empty);
+        
+        while(!queue.isEmpty()){
+            Node popNode = queue.poll();  
+            if(popNode == empty){
+                map.put(level, sum);
+                level ++;
+                sum = 0;
+                if(!queue.isEmpty()) {
+                queue.add(empty); }
+            }
+            else{
+            sum += popNode.data;
+            if(popNode.left != null){
+                queue.add(popNode.left);
+                }
+            if(popNode.right != null){
+                queue.add(popNode.right);
+                }
+            }
+        }
+        return map;
+    }
+    
+    /**
+     * Problem 35c horizontal line with recursion (because Koochi is on fire!!)
+     */
+     public static void question35c(Node root, HashMap<Integer, Integer> map, int level){
+         if(root == null) return;
+         int sum = 0;
+         if(map.containsKey(level)){
+             sum = map.get(level);
+             sum += root.data;
+             map.put(level, sum);
+         }
+         else{
+             map.put(level, sum+root.data);
+         }
+         question35c(root.left, map, level +1);
+         question35c(root.right, map, level+1);
+     }
+     /**
+      * Problem-32  Give an algorithm for printing all the ancestors of a node 
+      * in a Binary tree. 
+      */
+     public static void question32(Node root, Node desiredNode, ArrayList<Node> backtrackList){
+         backtrackList.add(root);
+         if(root == null ) return;
+         if(root == desiredNode){
+             for(Node temp: backtrackList){
+                 System.out.print(temp.data+ "---");
+             }
+             return;
+         }
+         
+         question32(root.left, desiredNode, backtrackList);
+         backtrackList.remove(backtrackList.size() -1);
+         question32(root.right, desiredNode, backtrackList);
+         backtrackList.remove(backtrackList.size() -1);
+     }
+     
+     /**
+      * Problem-33  Give an algorithm for finding LCA (Least Common Ancestor) 
+      * of two nodes in a Binary Tree.
+      */
+     public static void question33(Node root, Node node1, Node node2, ArrayList<ArrayList<Node>> storingList, ArrayList<Node> backtrackList){
+         backtrackList.add(root);
+         
+         if(root == null) return;
+         
+         if(root == node1 || root == node2){
+             storingList.add(new ArrayList<Node>(backtrackList));
+         }
+         
+         question33(root.left, node1, node2, storingList, backtrackList);
+         backtrackList.remove(backtrackList.size() -1);
+         question33(root.right, node1, node2, storingList, backtrackList);
+         backtrackList.remove(backtrackList.size() -1);
+         
+     }
+     public static Node question33help(Node root, Node n1, Node n2){
+         ArrayList<ArrayList<Node>> list = new ArrayList<ArrayList<Node>>();
+         ArrayList<Node> backtrack = new ArrayList<>();
+         question33(root, n1, n2,list, backtrack);
+         ArrayList<Node> storedGCA=new ArrayList<>();
+         int i=0;
+         
+         while(i<list.get(0).size() && i<list.get(1).size()){
+             if(list.get(0).get(i) == list.get(1).get(i)){
+                 storedGCA.add(list.get(0).get(i));
+             }
+             i++;
+         }
+         return storedGCA.get(storedGCA.size()-1);
+     }
+     
+     public static Node question33(Node root, Node n1, Node n2){
+         if(root == null) return null;
+         
+         if(root==n1 || root==n2) return root;
+         
+         Node left = question33(root.left, n1, n2);
+         Node right = question33(root.right, n1, n2);
+         
+         if(left!=null && right!=null) return root;
+         
+         if(left!=null) 
+             return left;
+         else
+             return right;
+      }
+     /**
+      * Problem-34  Zigzag Tree Traversal: Give an algorithm to traverse 
+      * a binary tree in Zigzag order.
+      */
+     public static void question34(Node root){
+         if(root == null) return;
+         Stack<Node> currentLevel = new Stack<Node>();
+         Stack<Node> nextLevel = new Stack<Node>();
+         currentLevel.add(root);
+         
+         boolean leftToRight = true;
+         
+         while(!currentLevel.isEmpty()){
+             Node popNode = currentLevel.pop();
+             
+             System.out.print(popNode.data+" ===>");
+             
+             if(leftToRight==true){
+                 if(popNode.left!=null){
+                     nextLevel.push(popNode.left);
+                 }
+                 if(popNode.right!=null){
+                     nextLevel.push(popNode.right);
+                 }
+             }
+             else{
+                 if(popNode.right!=null){
+                     nextLevel.push(popNode.right);
+                 }
+                 if(popNode.left!=null){
+                     nextLevel.push(popNode.left);
+                 }
+             }
+             
+             if(currentLevel.isEmpty()){
+                 leftToRight=!leftToRight;
+                 Stack<Node> temp = currentLevel;
+                 currentLevel = nextLevel;
+                 nextLevel = temp;
+             }
+         }
+     }
+     /**
+      * Problem 36: How many different binary trees are possible with n nodes?
+      */
 }
