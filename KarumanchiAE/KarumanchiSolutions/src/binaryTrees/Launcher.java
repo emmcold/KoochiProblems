@@ -893,4 +893,11 @@ public class Launcher {
      /**
       * Problem 36: How many different binary trees are possible with n nodes?
       */
+     
+     public static int question36(int n){
+         return 2*n-n;
+     }
+     
+     //TODO Problem 37 in BSTs
+     //TODO Read Problem 38-40
 }
