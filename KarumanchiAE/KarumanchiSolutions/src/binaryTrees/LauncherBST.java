@@ -15,8 +15,8 @@ public class LauncherBST {
         else{
             System.out.println("\nThe element is not found!");
         }
-        int i = 0;
-        int min=findMinimumElement(bst.root);
+       
+        int min=findMinRec(bst.root);
         System.out.println("\nThe min is: "+min);
         
     }
@@ -48,4 +48,11 @@ public class LauncherBST {
         return traverse.data;
                 
         }
+    //recursive approach to finding the minimum element
+    public static int findMinRec(Node root){
+        if(root == null) return Integer.MAX_VALUE;
+        
+        if(root.left == null) return root.data;
+        else return findMinRec(root.left);
+    }
 }
