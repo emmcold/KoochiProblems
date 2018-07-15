@@ -8,7 +8,7 @@ import binaryTrees.Tree.Node;
 public class BinarySearchTree {
     Node root;
     
-    class Node{
+    static class Node{
         int data;
         Node left;
         Node right;

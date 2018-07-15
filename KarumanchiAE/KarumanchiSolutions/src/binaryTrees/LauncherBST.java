@@ -21,6 +21,9 @@ public class LauncherBST {
         
         int max = findMaxElement(bst.root).data;
         System.out.println("\nThe max is: "+max);
+        insertElement(bst.root, 2);
+        bst.levelOrderTraversal(bst.root);
+        
     }
     
     public static Node findElement(Node root, int el){
@@ -72,4 +75,22 @@ public class LauncherBST {
         }
         return traverse;
     }
+    public static Node insertElement(Node root, int el){
+        
+        if (root == null) {
+            root = new Node(el);
+            return root;
+        }
+ 
+        
+        if (el < root.data)
+            root.left = insertElement(root.left, el);
+        else if (el > root.data)
+            root.right = insertElement(root.right, el);
+ 
+        
+        return root;
+    }
+    
+    
 }
