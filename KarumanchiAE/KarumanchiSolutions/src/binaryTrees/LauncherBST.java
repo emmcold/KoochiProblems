@@ -23,6 +23,9 @@ public class LauncherBST {
         System.out.println("\nThe max is: "+max);
         insertElement(bst.root, 2);
         bst.levelOrderTraversal(bst.root);
+        int distance=distanceFromRoot(bst.root,47);
+        System.out.println("\nThe distance is: "+distance);
+        
         
     }
     
@@ -91,6 +94,36 @@ public class LauncherBST {
         
         return root;
     }
-    
-    
+    //TODO delete operation
+    /**
+     * Problem 52 Give an algo for finding the shortest path between two nodes
+     * in BST
+     */
+    public static int question52(Node root, Node n1, Node n2, int size){
+        if(root == null) return 0;
+        if(n1.data>root.data && n2.data>root.data){
+            return question52(root.left, n1, n2, size);
+        }
+        if(n1.data < root.data && n2.data < root.data){
+            return question52(root.left, n1, n2,size);
+        }
+        
+        if(root.data >= n1.data && root.data <= n2.data) 
+            return distanceFromRoot(root, n1.data) + distanceFromRoot(root, n2.data);
+        return 0;
+    }
+
+    private static int distanceFromRoot(Node root, int n1) {
+        if(root == null) return 0;
+        int leftDistance=0;
+        int rightDistance=0;
+        if(root.data>n1){
+            leftDistance = distanceFromRoot(root.left, n1)+1;
+        }
+        else if(root.data < n1){
+            rightDistance = distanceFromRoot(root.right, n1)+1;
+        }
+        
+        return leftDistance + rightDistance;
+    }
 }
