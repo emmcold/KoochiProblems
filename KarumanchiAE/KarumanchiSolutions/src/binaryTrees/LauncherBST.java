@@ -19,6 +19,8 @@ public class LauncherBST {
         int min=findMinRec(bst.root);
         System.out.println("\nThe min is: "+min);
         
+        int max = findMaxElement(bst.root).data;
+        System.out.println("\nThe max is: "+max);
     }
     
     public static Node findElement(Node root, int el){
@@ -54,5 +56,20 @@ public class LauncherBST {
         
         if(root.left == null) return root.data;
         else return findMinRec(root.left);
+    }
+    
+    public static Node findMaxElementRec(Node root){
+        if(root == null) return null;
+        if(root.right == null) return root;
+        else return findMaxElementRec(root.right);
+    }
+    
+    public static Node findMaxElement(Node root){
+        if (root == null) return null;
+        Node traverse = root;
+        while(traverse.right!=null){
+            traverse = traverse.right;
+        }
+        return traverse;
     }
 }
