@@ -126,4 +126,22 @@ public class LauncherBST {
         
         return leftDistance + rightDistance;
     }
+    /**
+     * Problem 53- TODO with Dynamic Programming
+     */
+    
+    /**
+     * Problem 54 Find Least common ancestor (LCA)
+     */
+    public static Node question54(Node root, Node n1, Node n2){
+        if(root==null) return null;
+        if(root == n1 || root ==n2) return root;
+        if(root.data<n1.data && root.data<n2.data){
+            return question54(root.right, n1, n2);
+        }
+        if(root.data>n1.data && root.data>n2.data){
+            return question54(root.left, n1, n2);
+        }
+        return root;
+    }
 }
