@@ -63,6 +63,32 @@ public class StackProblems {
 		return minStack.pop();
 	}
 	
+	/**
+	 * Find if a string is palindrome or not using stack
+	 * @param args
+	 */
+	private static boolean isPalindrome(String string) {
+		//Stack<Character> stack = new Stack<>();
+		CharStack stack = new CharStack();
+		int index = 0;
+		
+		while(string.charAt(index)!='X') {
+			stack.push(new Character(string.charAt(index)));
+			index ++;
+		}
+		index++;
+		while(index < string.length()) {
+			if(new Character(string.charAt(index)) != stack.pop()) {
+				return false;
+			}
+		}
+		
+		if(stack.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static void main(String[] args){
 		String string = "(A+B)-[C-D]";
 		System.out.println("The string "+string+ "has balanced paranthesis: "
@@ -75,6 +101,12 @@ public class StackProblems {
 		stack.add(15);
 		stack.add(16);
 		System.out.println("Finding the min: "+ getMinimum(stack));
-	
+		
+		//Testing problem with palindrome
+		
+		String palindromeTest = "abaXaba";
+		System.out.println("The following string is a palindrome: " 
+		+ isPalindrome(palindromeTest));
+		
 	}
 }
