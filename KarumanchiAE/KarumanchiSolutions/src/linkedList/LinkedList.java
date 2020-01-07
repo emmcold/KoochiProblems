@@ -3,13 +3,15 @@ package linkedList;
 import linkedList.LinkedList.Node;
 
 public class LinkedList {
-	class Node{
+	public class Node{
 		int data;
 		Node next;
+		Node prev;
 		
 		Node(int data){
-			this.data=data;
-			this.next=null;
+			this.data = data;
+			this.next = null;
+			this.prev = null;
 		}
 	}
 	
