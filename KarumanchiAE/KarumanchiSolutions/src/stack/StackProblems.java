@@ -1,6 +1,9 @@
 package stack;
 
+
 import java.util.Stack;
+
+
 
 public class StackProblems {
 	/**
@@ -88,6 +91,38 @@ public class StackProblems {
 		}
 		return false;
 	}
+	/**
+	 * Find if a string is palindrome or not using linked list
+	 * @param args
+	 * Reverse the second half of the string and then compare first half with second.
+	 * if they are equal, it's a palindrome, if not. it is not.
+	 * It needs to change the definition of LinkedList to hold char instead of int
+	 */
+	//TODO do this later
+	
+	/**
+	 * Given a stack, how to reverse the content of the stack using only
+	 * stack operation push and pop/
+	 * @param args
+	 */
+	private static void reverseStack(Stack<Integer> s) {
+		if(s.isEmpty()) {
+			return;
+		}
+		Integer element = s.pop();
+		reverseStack(s);
+		pushElementInStackBottom(s, element);
+	}
+	
+	private static void pushElementInStackBottom(Stack<Integer> stack, Integer i) {
+		if(stack.isEmpty()) {
+			stack.push(i);
+			return;
+		}
+		int temp = stack.pop();
+		pushElementInStackBottom(stack, i);
+		stack.push(temp);
+	}
 	
 	public static void main(String[] args){
 		String string = "(A+B)-[C-D]";
@@ -95,11 +130,11 @@ public class StackProblems {
 		+problem1(string));
 		
 		Stack<Integer> stack = new Stack<>();
-		stack.add(2);
-		stack.add(3);
-		stack.add(1);
-		stack.add(15);
-		stack.add(16);
+		stack.push(2);
+		stack.push(3);
+		stack.push(1);
+		stack.push(15);
+		stack.push(16);
 		System.out.println("Finding the min: "+ getMinimum(stack));
 		
 		//Testing problem with palindrome
@@ -107,6 +142,25 @@ public class StackProblems {
 		String palindromeTest = "abaXaba";
 		System.out.println("The following string is a palindrome: " 
 		+ isPalindrome(palindromeTest));
+		System.out.println("The stack before reverse: ");
+		printStack(stack);
 		
+		System.out.println("Reverse stack: "); 
+		reverseStack(stack);
+		printStack(stack);
+		
+	}
+	
+	static void printStack(Stack<Integer> s) {
+		Stack<Integer> tempStack = new Stack<>();
+		
+		while(!s.isEmpty()) {
+			tempStack.push(s.pop());
+		}
+		
+		while(!tempStack.isEmpty()) {
+			System.out.print(tempStack.peek().intValue()+ "-");
+			s.push(tempStack.pop());
+		}
 	}
 }
