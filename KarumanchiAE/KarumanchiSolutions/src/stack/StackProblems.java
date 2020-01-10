@@ -207,7 +207,24 @@ public class StackProblems {
     	}
     	return maxArea;
     }
-    
+    /**
+     * Sort a stack in ascending order
+     * @param args
+     */
+    private static Stack<Integer> sortStack (Stack<Integer> stack) {
+    	Stack<Integer> tempStack = new Stack<>();
+    	
+    	while(!stack.isEmpty()) {
+    		int temp = stack.pop();
+    		
+    		while(!tempStack.isEmpty() && temp < tempStack.peek()) {
+    			stack.push(tempStack.pop());
+    		}
+    		tempStack.push(temp);
+    	}
+    	
+    	return tempStack;
+    }
     
 	public static void main(String[] args){
 		String string = "(A+B)-[C-D]";
