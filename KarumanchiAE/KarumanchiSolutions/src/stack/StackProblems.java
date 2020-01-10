@@ -175,6 +175,39 @@ public class StackProblems {
               
     } 
     
+    private static int largestRectangleArea(int[] arr) {
+    	// stack for storing the indexes
+    	Stack<Integer> stack = new Stack<>();
+    	stack.push(-1);
+    	
+    	int maxArea = 0;
+    	
+    	for(int i=0; i<arr.length; i++) {
+    		int currentBarHeight = arr[i];
+    		
+    		while(stack.peek()!= -1 && currentBarHeight <= arr[stack.peek()]) {
+    			int height = arr[stack.pop()];
+    			int width = i-stack.peek()-1;
+    			int area = height * width;
+    			
+    			if(area> maxArea) {
+    				maxArea = area;
+    			}
+    		}
+    		stack.push(i);
+    	}
+    	
+    	while(stack.peek() != -1) {
+    		int height = arr[stack.pop()];
+    		int width = arr.length - stack.peek() - 1;
+    		int area = height * width;
+    		if(area> maxArea) {
+    			maxArea = area;
+    		}
+    	}
+    	return maxArea;
+    }
+    
     
 	public static void main(String[] args){
 		String string = "(A+B)-[C-D]";
