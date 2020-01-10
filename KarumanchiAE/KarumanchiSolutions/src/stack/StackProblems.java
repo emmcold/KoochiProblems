@@ -123,7 +123,59 @@ public class StackProblems {
 		pushElementInStackBottom(stack, i);
 		stack.push(temp);
 	}
+	/**
+	 * Finding of spans
+	 * @param args
+	 */
 	
+	static int[] findingOfSpans(int[] stockPrice, int n) {
+		
+		int[] span = new int[n];
+		// The span value in the first day is always 1.
+		span[0] = 1;
+		
+		for(int i=1; i<stockPrice.length; i++) {
+			span[i] =1;
+			
+			for(int j=i-1; (j>=0) && (stockPrice[j]<=stockPrice[i]); j-- ) {
+				span[i]++;
+			}
+		}
+		
+		return span;
+	}
+	
+	/**
+	 * Implementation of the span of stocks with stack.
+	 * @param args
+	 */
+	 // A stack based efficient method to calculate 
+    // stock span values 
+    static void calculateSpan(int stockPrice[], int n) 
+    { 
+    	int[] spans = new int[n];
+        // Create a stack and push index of first element 
+        // to it 
+        Stack<Integer> st = new Stack<>(); 
+        int previous = 0;
+        for(int i=0; i<stockPrice.length; i++) {
+        	while(!st.isEmpty() && stockPrice[i]>= stockPrice[(Integer) st.peek()]) {
+        		st.pop();
+        	}
+        	
+        	if(st.isEmpty()) {
+        		previous =-1;
+        	}
+        	else {
+        		previous = (Integer) st.peek();
+        	}
+        	spans[i] = i -previous;
+        	st.push(i);
+        }
+              
+    } 
+    
+    
 	public static void main(String[] args){
 		String string = "(A+B)-[C-D]";
 		System.out.println("The string "+string+ "has balanced paranthesis: "
@@ -149,6 +201,20 @@ public class StackProblems {
 		reverseStack(stack);
 		printStack(stack);
 		
+		int[] arr = new int [7];
+		arr[0] = 100;
+		arr[1] = 80;
+		arr[2] = 60;
+		arr[3] = 70;
+		arr[4] = 60;
+		arr[5] = 75;
+		arr[6] = 85;
+		
+		int[] spanArr = findingOfSpans(arr, 7);
+		System.out.println("\nThe span: ");
+		for(int i=0; i<spanArr.length; i++) {
+			System.out.print(spanArr[i]+ " ");
+		}
 	}
 	
 	static void printStack(Stack<Integer> s) {
