@@ -226,6 +226,45 @@ public class StackProblems {
     	return tempStack;
     }
     
+    /**
+     * Remove duplicates from array using stack
+     * @param args
+     */
+    private static int[] removeDupl(int[] arr) {
+    	Stack<Integer> stack = new Stack<>();
+    	
+    	if(arr.length == 0) {
+    		return arr;
+    	}
+    	
+    	stack.push(arr[0]);
+    	
+    	// start from second element
+    	
+    	int i =1;
+    	
+    	while(i< arr.length) {
+    		int temp = stack.peek();	
+    		if(temp != arr[i]) {
+    			stack.push(arr[i]);
+    			i++;
+    		}
+    		else {
+    			stack.pop();
+    		while(temp == arr[i] && i<arr.length) {
+    			i++;
+    			}
+    		}
+    	}
+    	
+    	int[] arrNew = new int[stack.size()];
+    	for(int j = arrNew.length -1; j>=0; j--) {
+    		arrNew[j] = stack.pop(); 
+    	}
+    	
+    	return arrNew;
+    }
+    
 	public static void main(String[] args){
 		String string = "(A+B)-[C-D]";
 		System.out.println("The string "+string+ "has balanced paranthesis: "
